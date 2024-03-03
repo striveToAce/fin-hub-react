@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import useAuth from "../../customHooks/useAuth";
+import useCounter from "../../customHooks/useCounter";
 
 const Header = () => {
     const { auth, login, logout } = useAuth();
+    const { currentCount, styleProperties } = useCounter(20)
     const [notificationCount, setNotificationCount] = useState(0)
 
     /*
@@ -13,13 +15,15 @@ const Header = () => {
     }
 
     useEffect(() => {
+        console.log("*****", notificationCount)
+
         // Clean-up function to log when the component unmounts
         return () => {
-            console.log("Cleaning up Header component");
+            console.log("Cleaning up Header component", notificationCount);
         }
-    }, [])
+    }, [notificationCount])
 
     // Header JSX
-    return <h1 onClick={incrementNotifCount}>FinHub Header {notificationCount}</h1>
+    return <h1 onClick={incrementNotifCount}>FinHub Header {notificationCount} <span style={styleProperties}>{currentCount}</span></h1>
 }
 export default Header
