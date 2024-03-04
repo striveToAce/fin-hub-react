@@ -1,60 +1,25 @@
-import { useEffect, useReducer, useState } from "react";
-import useAuth from "../../customHooks/useAuth";
-import {
-  articleReducerFunction,
-  articleInitialState,
-} from "../../reducer/article";
-
-const Header = () => {
-  const { auth, login, logout } = useAuth();
-  const [articleState, articleDispatch] = useReducer(
-    articleReducerFunction,
-    articleInitialState
-  );
-  const [notificationCount, setNotificationCount] = useState(0);
-
+import "./index.css";
+/*
+auth : if true->(user loggedin) else (user loggedout)
+*/
+const Header = ({ auth = false }) => {
   /*
-    Purpose : Function to increment notification's count
-    */
-  const incrementNotifCount = () => {
-    setNotificationCount((prev) => prev + 1);
-  };
+  auth's value based button - css
+  */
+  const buttonClass = `btn ${
+    auth ? "heading-logout-color" : "heading-login-color"
+  }`;
 
-  useEffect(() => {
-    console.log("*****", notificationCount);
-
-    // Clean-up function to log when the component unmounts
-    return () => {
-      console.log("Cleaning up Header component", notificationCount);
-    };
-  }, [notificationCount]);
-
-  // Header JSX
   return (
-    <>
-      <h1 onClick={incrementNotifCount}>FinHub Header {notificationCount}</h1>
-      <div>Article's count : {articleState?.articles?.length ?? 0}</div>
-      <div
-        style={{
-          color: "red",
-        }}
-        onClick={() => {
-          articleDispatch({
-            type: "ARTICLE_INSERT",
-            payload: {
-              name: `Article ${articleState?.articles?.length + 1}`,
-            },
-          });
-        }}
-      >
-        Add now
-      </div>
-      <div>
-        {articleState.articles.map((art, idx) => (
-          <div key={idx}>{art.name}</div>
-        ))}
-      </div>
-    </>
+    <div className="border-b navbar bg-base-100 fin-hub-header">
+      <a href="/" className="btn btn-ghost text-xl">
+        FinHub
+      </a>
+      <button type="submit" className={buttonClass}>
+        {auth ? "Logout" : "Login"}
+      </button>
+    </div>
   );
 };
+
 export default Header;
