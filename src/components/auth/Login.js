@@ -1,26 +1,13 @@
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import Layout from "../layout/Layout";
+import { loginSchema } from "../../utils/formValidation";
 const Login = () => {
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    validationSchema: Yup.object({
-      username: Yup.string()
-        .min(8, "Username must be at least 8 characters long")
-        .matches(
-          /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[^A-Z]{8,}$/,
-          "Username must contain lowercase letters, a number, and a special character."
-        ),
-      password: Yup.string()
-        .min(8, "Password must be at least 8 characters long")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[^A-Za-z\d@$!%*?&]{8,}$/,
-          "Password must contain uppercase and lowercase letters, a number, and a special character."
-        ),
-    }),
+    validationSchema: loginSchema,
     onSubmit: (values) => {
       // Handle form submission here
       console.log(values);
@@ -31,6 +18,9 @@ const Login = () => {
       <div className="flex justify-center">
         <div className="card shadow-xl w-11/12 sm:w-3/6 lg:w-2/6">
           <div className="card-body">
+          <div className="font-semibold text-purple-500 text-xl">
+              Welcome Back!
+            </div>
             <div className="flex flex-col gap-4">
               <label className="input input-bordered flex items-center gap-2">
                 <svg
@@ -58,6 +48,9 @@ const Login = () => {
                 </svg>
                 <input type="password" className="grow" value="password" />
               </label>
+            </div>
+            <div className="text-center mt-2">
+              <button class="btn btn-primary">Login</button>
             </div>
           </div>
         </div>
