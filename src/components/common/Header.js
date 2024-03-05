@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 /*
 auth : if true->(user loggedin) else (user loggedout)
 */
 const Header = ({ auth = false }) => {
+  const navigate = useNavigate();
   /*
   auth's value based button - css
   */
@@ -12,10 +14,20 @@ const Header = ({ auth = false }) => {
 
   return (
     <div className="border-b navbar bg-base-100 fin-hub-header">
-      <a href="/" className="btn btn-ghost text-xl">
+      <span
+        onClick={() => {
+          navigate("/");
+        }}
+        className="btn btn-ghost text-purple-500 text-xl"
+      >
         FinHub
-      </a>
-      <button type="submit" className={buttonClass}>
+      </span>
+      <button
+        onClick={() => {
+          navigate("/login");
+        }}
+        className={buttonClass}
+      >
         {auth ? "Logout" : "Login"}
       </button>
     </div>
